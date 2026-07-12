@@ -1,0 +1,47 @@
+{
+  "common": {
+    "welcome": "Hoş geldiniz",
+    "search": "Ara",
+    "signIn": "Giriş yap",
+    "signUp": "Kayıt ol",
+    "logout": "Çıkış yap",
+    "language": "Dil"
+  },
+  "nav": {
+    "home": "Ana sayfa",
+    "programs": "Programlar",
+    "erasmus": "Erasmus+",
+    "esc": "ESC",
+    "scholarships": "Burslar",
+    "jobs": "İş fırsatları",
+    "blog": "Blog",
+    "events": "Etkinlikler",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
+  },
+  "hero": {
+    "title": "Küresel Eğitim Yolculuğunuz Burada Başlıyor",
+    "subtitle": "50'den fazla ülkede uluslararası eğitim, burs ve kariyer fırsatları",
+    "cta": "Programları Keşfet",
+    "stats": {
+      "students": "Öğrenciler",
+      "countries": "Ülkeler",
+      "successRate": "Başarı oranı"
+    }
+  },
+  "training": {
+    "duration": "Süre",
+    "schedule": "Takvim",
+    "price": "Fiyat",
+    "register": "Kayıt ol",
+    "requirements": "Gereklilikler",
+    "outcomes": "Sonuçlar",
+    "certificate": "Sertifika"
+  },
+  "footer": {
+    "copyright": "Tüm hakları saklıdır",
+    "privacy": "Gizlilik politikası",
+    "terms": "Kullanım koşulları",
+    "cookie": "Çerez politikası"
+  }
+}

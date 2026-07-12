@@ -1,0 +1,47 @@
+{
+  "common": {
+    "welcome": "Xoş gəlmisiniz",
+    "search": "Axtar",
+    "signIn": "Daxil ol",
+    "signUp": "Qeydiyyat",
+    "logout": "Çıxış",
+    "language": "Dil"
+  },
+  "nav": {
+    "home": "Ana səhifə",
+    "programs": "Proqramlar",
+    "erasmus": "Erasmus+",
+    "esc": "ESC",
+    "scholarships": "Təqaüdlər",
+    "jobs": "İş imkanları",
+    "blog": "Bloq",
+    "events": "Tədbirlər",
+    "about": "Haqqımızda",
+    "contact": "Əlaqə"
+  },
+  "hero": {
+    "title": "Qlobal Təhsil Səyahətiniz Buradan Başlayır",
+    "subtitle": "50+ ölkədə beynəlxalq təhsil, təqaüd və karyera imkanları",
+    "cta": "Proqramları Kəşf Et",
+    "stats": {
+      "students": "Tələbələr",
+      "countries": "Ölkələr",
+      "successRate": "Uğur nisbəti"
+    }
+  },
+  "training": {
+    "duration": "Müddət",
+    "schedule": "Cədvəl",
+    "price": "Qiymət",
+    "register": "Qeydiyyatdan keç",
+    "requirements": "Tələblər",
+    "outcomes": "Nəticələr",
+    "certificate": "Sertifikat"
+  },
+  "footer": {
+    "copyright": "Bütün hüquqlar qorunur",
+    "privacy": "Məxfilik siyasəti",
+    "terms": "İstifadə şərtləri",
+    "cookie": "Kuki siyasəti"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "search": "Search",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "programs": "Programs",
+    "erasmus": "Erasmus+",
+    "esc": "ESC",
+    "scholarships": "Scholarships",
+    "jobs": "Jobs",
+    "blog": "Blog",
+    "events": "Events",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Your Global Education Journey Starts Here",
+    "subtitle": "Access international education, scholarships, and career opportunities across 50+ countries",
+    "cta": "Explore Programs",
+    "stats": {
+      "students": "Students",
+      "countries": "Countries",
+      "successRate": "Success Rate"
+    }
+  },
+  "training": {
+    "duration": "Duration",
+    "schedule": "Schedule",
+    "price": "Price",
+    "register": "Register",
+    "requirements": "Requirements",
+    "outcomes": "Outcomes",
+    "certificate": "Certificate"
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookie": "Cookie Policy"
+  }
+}

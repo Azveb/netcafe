@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String           @id @default(cuid())
+  email             String           @unique
+  password          String?
+  firstName         String
+  lastName          String
+  phoneNumber       String?
+  dateOfBirth       DateTime?
+  nationality       String?
+  profileImage      String?
+  bio               String?
+  role              UserRole         @default(USER)
+  isEmailVerified   Boolean          @default(false)
+  isPhoneVerified   Boolean          @default(false)
+  isActive          Boolean          @default(true)
+  lastLogin         DateTime?
+  loginAttempts     Int              @default(0)
+  lockedUntil       DateTime?
+  refreshToken      String?
+  twoFactorEnabled  Boolean          @default(false)
+  twoFactorSecret   String?
+  
+  applications      Application[]
+  trainingRegistrations TrainingRegistration[]
+  certificates      Certificate[]
+  invoices          Invoice[]
+  payments          Payment[]
+  notifications     Notification[]
+  messages          Message[]
+  comments          Comment[]
+  likes             Like[]
+  bookmarks         Bookmark[]
+  activities        ActivityLog[]
+  loginHistory      LoginHistory[]
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@map("users")
+}
+
+enum UserRole {
+  USER
+  INSTRUCTOR
+  PARTNER
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Training {
+  id              String     @id @default(cuid())
+  title           String
+  titleAz         String?    // YENİ: Çoxdillilik
+  titleRu         String?
+  titleTr         String?
+  titleEn         String?
+  slug            String     @unique
+  description     String
+  descriptionAz   String?
+  descriptionRu   String?
+  descriptionTr   String?
+  descriptionEn   String?
+  content         String?
+  image           String?
+  category        TrainingCategory
+  level           TrainingLevel
+  duration        String
+  schedule        String
+  agenda          Json?
+  learningOutcomes Json?
+  requirements    Json?
+  maxSeats        Int
+  availableSeats  Int
+  price           Float?
+  discountedPrice Float?
+  startDate       DateTime
+  endDate         DateTime
+  applicationDeadline DateTime?
+  isActive        Boolean    @default(true)
+  isFeatured      Boolean    @default(false)
+  instructorId    String?
+  certificateInfo String?
+  bonuses         Json?
+  seoTitle        String?
+  seoDescription  String?
+  
+  instructor      Instructor? @relation(fields: [instructorId], references: [id])
+  registrations   TrainingRegistration[]
+  testimonials    Testimonial[]
+  faqs           FAQ[]
+  
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@map("trainings")
+}
+
+model Translation {
+  id        String   @id @default(cuid())
+  key       String
+  locale    String   // az, ru, tr, en
+  value     String
+  namespace String   // common, hero, nav, etc.
+  updatedAt DateTime @updatedAt
+  
+  @@unique([key, locale])
+  @@map("translations")
+}
+
+// ... digər modellər eyni qalır (əvvəlki kimi)
