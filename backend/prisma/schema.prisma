@@ -8,112 +8,150 @@ datasource db {
 }
 
 model User {
-  id                String           @id @default(cuid())
-  email             String           @unique
-  password          String?
-  firstName         String
-  lastName          String
-  phoneNumber       String?
-  dateOfBirth       DateTime?
-  nationality       String?
-  profileImage      String?
-  bio               String?
-  role              UserRole         @default(USER)
-  isEmailVerified   Boolean          @default(false)
-  isPhoneVerified   Boolean          @default(false)
-  isActive          Boolean          @default(true)
-  lastLogin         DateTime?
-  loginAttempts     Int              @default(0)
-  lockedUntil       DateTime?
-  refreshToken      String?
-  twoFactorEnabled  Boolean          @default(false)
-  twoFactorSecret   String?
-  
-  applications      Application[]
-  trainingRegistrations TrainingRegistration[]
-  certificates      Certificate[]
-  invoices          Invoice[]
-  payments          Payment[]
-  notifications     Notification[]
-  messages          Message[]
-  comments          Comment[]
-  likes             Like[]
-  bookmarks         Bookmark[]
-  activities        ActivityLog[]
-  loginHistory      LoginHistory[]
-  
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  role         Role          @default(USER)
+  refreshToken String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  profile      UserProfile?
+  applications Application[]
+  notifications Notification[]
+  logs         ActivityLog[]
 
   @@map("users")
+  @@index([email])
 }
 
-enum UserRole {
-  USER
-  INSTRUCTOR
-  PARTNER
-  ADMIN
-  SUPER_ADMIN
+enum Role { USER ADMIN MODERATOR }
+
+model UserProfile {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  firstName    String
+  lastName     String
+  phoneNumber  String?
+  dateOfBirth  DateTime?
+  nationality  String?
+  profileImage String?
+  bio          String?
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
 }
 
-model Training {
-  id              String     @id @default(cuid())
-  title           String
-  titleAz         String?    // YENİ: Çoxdillilik
-  titleRu         String?
-  titleTr         String?
-  titleEn         String?
-  slug            String     @unique
-  description     String
-  descriptionAz   String?
-  descriptionRu   String?
-  descriptionTr   String?
-  descriptionEn   String?
-  content         String?
-  image           String?
-  category        TrainingCategory
-  level           TrainingLevel
-  duration        String
-  schedule        String
-  agenda          Json?
-  learningOutcomes Json?
-  requirements    Json?
-  maxSeats        Int
-  availableSeats  Int
-  price           Float?
-  discountedPrice Float?
-  startDate       DateTime
-  endDate         DateTime
-  applicationDeadline DateTime?
-  isActive        Boolean    @default(true)
-  isFeatured      Boolean    @default(false)
-  instructorId    String?
-  certificateInfo String?
-  bonuses         Json?
-  seoTitle        String?
-  seoDescription  String?
-  
-  instructor      Instructor? @relation(fields: [instructorId], references: [id])
-  registrations   TrainingRegistration[]
-  testimonials    Testimonial[]
-  faqs           FAQ[]
-  
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+model Program {
+  id           String        @id @default(cuid())
+  title        String
+  type         ProgramType
+  description  String?
+  deadline     DateTime?
+  country      String?
+  university   String?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  @@map("trainings")
+  applications Application[]
+
+  @@map("programs")
+  @@index([type])
+  @@index([isActive])
+  @@index([deadline])
+}
+
+enum ProgramType { ERASMUS ESC SCHOLARSHIP TRAINING PROJECT }
+
+model Application {
+  id        String            @id @default(cuid())
+  userId    String
+  programId String
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  program   Program           @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@map("applications")
+  @@index([userId])
+  @@index([programId])
+  @@index([status])
+}
+
+enum ApplicationStatus { PENDING UNDER_REVIEW APPROVED REJECTED WAITLISTED }
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  published Boolean  @default(false)
+  authorId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+  @@index([slug])
+  @@index([published])
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  location    String?
+  isOnline    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("events")
+  @@index([startDate])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+  @@index([userId])
+  @@index([read])
 }
 
 model Translation {
   id        String   @id @default(cuid())
   key       String
-  locale    String   // az, ru, tr, en
-  value     String
-  namespace String   // common, hero, nav, etc.
+  locale    String
+  value     String   @db.Text
+  namespace String   @default("common")
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  @@unique([key, locale])
+
+  @@unique([key, locale, namespace])
   @@map("translations")
 }
 
-// ... digər modellər eyni qalır (əvvəlki kimi)
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
+  @@index([userId])
+}
